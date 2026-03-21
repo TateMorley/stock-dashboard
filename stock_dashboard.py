@@ -30,11 +30,19 @@ from utilities import *
 
 load_dotenv()
 
+try:
+    if "GROQ_API_KEY" in st.secrets:
+        os.environ["GROQ_API_KEY"] = st.secrets["GROQ_API_KEY"]
+except Exception: # If this happens, then it's trying to run locally
+    pass
+
 # LLM setup
 client = Groq(api_key=os.getenv("GROQ_API_KEY"))
 
+
+# LLM function setup
 tools = [
-    {
+    { # Data setup
         "type": "function",
         "function": {
             "name": "get_stock_data",
@@ -59,7 +67,7 @@ tools = [
             }
         }
     },
-    {
+    { # Comparison setup
         "type": "function",
         "function": {
             "name": "compare_stocks",
@@ -84,7 +92,7 @@ tools = [
             }
         }
     },
-    {
+    { # Recommendation setup
         "type": "function",
         "function": {
             "name": "get_recommendation",
@@ -104,10 +112,12 @@ tools = [
     }
 ]
 
+# Title setup
 st.set_page_config(layout="wide")
 st.markdown("<h1 style='text-align: center;'>StockBoard</h1>", unsafe_allow_html=True) # Title
 st.divider()
 
+# Portfolio chart setup and import
 if "portfolio" not in st.session_state:
     if os.path.exists("portfolio.csv"):
         st.session_state.portfolio = pd.read_csv("portfolio.csv")
@@ -136,12 +146,14 @@ with main_col2:
     # Portfolio Tracker ------------------------------------------------------------------------------------------
     st.subheader("Portfolio Tracker")
 
+    # Ticker lookup
     st.caption("Ticker Lookup")
     lookup_col1, lookup_col2 = st.columns([3, 1])
 
     with lookup_col1:
         company_name = st.text_input("Enter a company name:")
 
+    # Ticker display
     with lookup_col2:
         if st.button("Lookup Ticker"):
             if company_name:
@@ -151,6 +163,7 @@ with main_col2:
                 else:
                     st.error("Company not found.")
 
+    # Import section
     uploaded_file = st.file_uploader("Import Portfolio CSV", type="csv")
     if uploaded_file is not None:
         st.session_state.portfolio = pd.read_csv(uploaded_file)
@@ -163,6 +176,7 @@ with main_col2:
 
     col1, col2 = st.columns(2)
 
+    # Export section
     with col1:
         csv = portfolio.to_csv(index=False).encode('utf-8')
         st.download_button(
@@ -172,6 +186,7 @@ with main_col2:
             mime='text/csv'
         )
 
+    # Analyze section
     analyze_button = None
 
     with col2:

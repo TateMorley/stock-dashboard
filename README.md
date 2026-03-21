@@ -17,6 +17,7 @@ calls, fetch live market data, and visualize it interactively.
 - yfinance
 - Groq (LLaMA 3.3)
 - pandas
+- feedparser
 
 ## Installation
 1. Clone the repo
