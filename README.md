@@ -7,8 +7,9 @@ calls, fetch live market data, and visualize it interactively.
 
 ## Features
 - LLM automated graph generation
-- Stock comparison and isolated analysis
-- More to come!
+- LLM stock comparison and isolated analysis
+- LLM stock action advisor
+- News generation
 
 ## Tech Stack
 - Python
@@ -33,6 +34,10 @@ Run the app with:
 streamlit run dashboard.py
 ```
 
+OR
+
+Visit https://stockboard2026.streamlit.app/
+
 ### Example Queries
 - "Show me Apple's performance over the past 3 months"
 - "Show me Nvidia's stock since they announced their 5000 series gpus"
@@ -41,3 +46,4 @@ streamlit run dashboard.py
 - "Compare Amazon and Walmart's performance since COVID-19 lockdowns began"
 - "Compare McDonalds and Burger King since the beginning of Q2"
 - "Should I buy Apple shares right now?"
+- "Should I hold my General Electric stock?"
